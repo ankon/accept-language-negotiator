@@ -2,6 +2,10 @@
 **RFC4647** compliant accept-language negotiator for parsing HTTP 
 Accept-Language header and returning matched lists or language.
 
+[![Build Status](https://travis-ci.org/jayco/accept-language-negotiator.svg?branch=master)](https://travis-ci.org/jayco/accept-language-negotiator)
+
+[![NPM](https://nodei.co/npm/accept-language-negotiator.png?downloads=true&stars=true)](https://nodei.co/npm/accept-language-negotiator/)
+
 **Features:**
 - No external dependencies 
 - 100% test coverage
@@ -41,18 +45,17 @@ quality 1 will be given as described in **RFC2616 14.4 Accept-Language**.
 import {languagePriorityList} from 'accept-language-node';
 
 // value
-languagePriorityList('en-GB');
-returns => [{tag: 'en-GB', quality: 1}]
+languagePriorityList('en-GB'); // returns => [{tag: 'en-GB', quality: 1}]
 
 // range
 languagePriorityList('en-GB,en-US;q=0.7,fr-CA;q=0.8,en;q=0.5, *');
-returns => [
-                {tag: '*', quality: 1}, 
-                {tag: 'en-GB', quality: 1}, 
-                {tag: 'fr-CA', quality: 0.8},
-                {tag: 'en-US', quality: 0.7},
-                {tag: 'en', quality: 0.5}
-           ]
+/* 
+  returns => [{tag: '*', quality: 1}, 
+              {tag: 'en-GB', quality: 1}, 
+              {tag: 'fr-CA', quality: 0.8},
+              {tag: 'en-US', quality: 0.7},
+              {tag: 'en', quality: 0.5}] 
+*/
 
 // incorrect input
 languagePriorityList(undefined);
@@ -61,7 +64,8 @@ languagePriorityList(1);
 languagePriorityList({});
 languagePriorityList([]);
 languagePriorityList(true);
-returns => [{tag: '*', quality: 1}]
+
+// returns => [{tag: '*', quality: 1}]
 ```
 
 ## basicFilter(range, languageTags)
@@ -93,8 +97,7 @@ const supportedLanguageTags = [
     'de-Latn-DE'
     ];
     
-basicFilter('de-de', supportedLanguageTags);
-returns => ['de-DE', 'de-DE-1996'];
+basicFilter('de-de', supportedLanguageTags); // returns => ['de-DE', 'de-DE-1996'];
 ```
 
 
@@ -108,12 +111,8 @@ const supportedLanguageTags = [
     ];
     
 basicFilter('en-GB,en-US;q=0.7,fr-CA;q=0.8,en;q=0.5', supportedLanguageTags);
-returns => [
-             'en-GB',
-             'fr-CA',
-             'en-US',
-             'en'
-           ]
+// returns => ['en-GB', 'fr-CA', 'en-US', 'en']
+
 ```
 
 ## extendedFilter(range, languageTags)
@@ -148,14 +147,15 @@ const supportedLanguageTags = [
     ];
     
 extendedFilter('de-*-DE', supportedLanguageTags);
-returns => [
-                'de-DE',
-                'de-de',
-                'de-Latn-DE',
-                'de-DE-x-goethe',
-                'de-Latn-DE-1996',
-                'de-Deva-DE'
-            ];
+/*
+  returns => ['de-DE',
+              'de-de',
+              'de-Latn-DE',
+              'de-DE-x-goethe',
+              'de-Latn-DE-1996',
+              'de-Deva-DE'
+              ];
+*/
 ```
 
 ## lookup(range, languageTags, defaultValue)
@@ -181,16 +181,16 @@ the request, the "default" value is returned.
 ```js
 import {lookup} from 'accept-language-node';
 
-const supportedLanguageTags = ['zh-Hant', 'zh';
+const supportedLanguageTags = ['zh-Hant', 'zh'];
 const defaultLanguage = 'en-US';    
 
 // match
 lookup('zh-Hant-CN-x-private1-private2', supportedLanguageTags, defaultLanguage);
-returns => 'zh-Hant';
+// returns => 'zh-Hant';
 
 // return default
 lookup('ru-RU', supportedLanguageTags, defaultLanguage);
-returns => 'en-US';
+// returns => 'en-US';
 ```
 
 ## IETF RFC References
