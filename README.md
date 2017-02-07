@@ -8,7 +8,7 @@ Accept-Language header and returning matched lists or language.
 
 **Features:**
 - No external dependencies 
-- 100% test coverage
+- Full test coverage
 - RFC2616 14.4 Accept-Language compliant
     - implements RFC2616 14.4 Accept-Language range quality weights
 - RFC4647 compliant
